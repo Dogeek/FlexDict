@@ -34,7 +34,13 @@ class FlexDict(dict):
                 )
 
     def __hash__(self):
-        return id(self)
+        def mul(l):
+            rv = 1
+            for i in l:
+                rv *= i
+            return rv
+        locked_state = "l" if self.locked else "u"
+        return mul([ord(c) for c in str(self.flatten()) + locked_state])
 
     def __eq__(self, other):
         if isinstance(other, dict):
