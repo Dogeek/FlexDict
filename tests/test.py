@@ -46,6 +46,17 @@ def test_equals():
     assert (flex is FlexDict()) is False
 
 
+def test_hash_equals():
+    """Hash equality comparisons. hash(FlexDict()) == hash(FlexDict())"""
+    f = FlexDict()
+    g = FlexDict()
+    assert (hash(f) == hash(g)) is True
+    assert (hash(f) == hash(f)) is True
+    f["foo", "bar"] = 1
+    g["bar", "foo"] = 1
+    assert (hash(f) == hash(g)) is False
+
+
 @mark.parametrize(
     'keys', [
         ['a'],

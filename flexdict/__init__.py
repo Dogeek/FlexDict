@@ -34,13 +34,12 @@ class FlexDict(dict):
                 )
 
     def __hash__(self):
-        def mul(l):
-            rv = 1
-            for i in l:
-                rv *= i
-            return rv
+        import hashlib
         locked_state = "l" if self.locked else "u"
-        return mul([ord(c) for c in str(self.flatten()) + locked_state])
+        hasher = hashlib.sha1()
+        for char in str(self) + locked_state:
+            hasher.update(char)
+        return hasher.hexdigest()
 
     def __eq__(self, other):
         if isinstance(other, dict):
